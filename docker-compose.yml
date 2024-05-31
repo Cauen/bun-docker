@@ -1,9 +1,22 @@
-version: "3"
+version: '3'
 
 services:
-  bun-local:
-    container_name: bun-local
+  bun-docker-https:
     build: .
+    container_name: bun-docker-https
     restart: always
-    ports:
-      - 3000:3000
+    networks:
+      - traefik-public
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.bun-web-secure.rule=Host(`bun.i9digital.com`)
+      - traefik.http.routers.bun-web-secure.tls.certresolver=letsencryptresolver
+      - traefik.http.routers.bun-web-secure.tls=true
+      - traefik.http.routers.bun-web-secure.entrypoints=websecure
+      - traefik.http.middlewares.limit.buffering.maxRequestBodyBytes=20000000
+      # if you have multiple ports exposed on the service, specify port in the web-secure service
+      - traefik.http.services.bun-web-secure.loadbalancer.server.port=3000
+
+networks:
+  traefik-public:
+    external: true
