@@ -1,15 +1,7 @@
-# bun-docker
+# Commands
 
-To install dependencies:
+bun dev
+bun start
 
-```bash
-bun install
-```
-
-To run:
-
-```bash
-bun run index.ts
-```
-
-This project was created using `bun init` in bun v1.1.4. [Bun](https://bun.sh) is a fast all-in-one JavaScript runtime.
+docker compose -f ./docker-compose-local.yml up --build
+docker compose up --build
